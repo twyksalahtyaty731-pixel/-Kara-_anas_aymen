@@ -1,8 +1,9 @@
+
 module.exports.config = {
   name: "ضيفي",
   version: "2.6.0",
   hasPermssion: 2, // للمطور والأدمن فقط حسب إعدادات بوتك
-  credits: "ايمن",
+  credits: "تويكس", // تم التعديل
   description: "إضافة مستخدم عبر الرابط أو الرد (للمطور فقط)",
   commandCategory: "developer",
   usages: "ضيفي [رابط الحساب] أو بالرد على رسالة بها رابط",
@@ -15,7 +16,7 @@ module.exports.run = async function({ api, event, args }) {
 
   // 1. التحقق من أن المرسل هو المطور (الأدمن)
   if (!global.config.ADMINBOT.includes(senderID)) {
-    return api.sendMessage("❌ هذا الأمر خاص بمطوري أيمن فقط!", threadID, messageID);
+    return api.sendMessage("❌ هذا الأمر خاص بمطوري تويكس فقط!", threadID, messageID);
   }
 
   let input = args[0];
@@ -29,7 +30,7 @@ module.exports.run = async function({ api, event, args }) {
   }
 
   if (!input) {
-    return api.sendMessage("⌬ ━━ 𝗞𝗜𝗥𝗔 ━━ ⌬\n\nيرجى وضع رابط حساب الشخص أو الرد على رسالته.", threadID, messageID);
+    return api.sendMessage("⌬ ━━ 𝗠𝗜𝗥𝗔 ━━ ⌬\n\nيرجى وضع رابط حساب الشخص أو الرد على رسالته.", threadID, messageID);
   }
 
   api.setMessageReaction("⌛", messageID, () => {}, true);
