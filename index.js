@@ -9,7 +9,7 @@ const timerestart = 120;
 const port = process.env.PORT || 8000;
 
 // ═══════════════════════════════════════════════
-//           KIRA — HELLGATE UPTIME PAGE
+//           ميرا — بوابة الجحيم (UPTIME PAGE)
 // ═══════════════════════════════════════════════
 app.get('/', (req, res) => {
     const startTime = global.client?.timeStart || Date.now();
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KIRA — بوابة الجحيم</title>
+<title>ميرا — بوابة الجحيم</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=UnifrakturMaguntia&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
@@ -118,7 +118,7 @@ app.get('/', (req, res) => {
   .seal-container svg{width:100%;height:100%;}
   @keyframes rotateSeal{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-  .kira-eye {
+  .mira-eye {
     position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
     width:60px;height:60px;animation:rotateSeal 30s linear infinite reverse;
     display:flex;align-items:center;justify-content:center;
@@ -140,7 +140,7 @@ app.get('/', (req, res) => {
   @keyframes eyeGlow{from{box-shadow:0 0 10px #FF2200;}to{box-shadow:0 0 25px #FF6600,0 0 50px #FF2200;}}
 
   .title-block{text-align:center;margin-bottom:10px;}
-  .kira-name {
+  .mira-name {
     font-family:'UnifrakturMaguntia',cursive;
     font-size:clamp(5rem,15vw,9rem);line-height:0.9;
     background:linear-gradient(180deg,#FFD700 0%,#FF6600 40%,#FF2200 70%,#8B0000 100%);
@@ -152,7 +152,7 @@ app.get('/', (req, res) => {
     from{filter:drop-shadow(0 0 20px #FF2200) drop-shadow(0 0 40px #8B0000);}
     to{filter:drop-shadow(0 0 35px #FF6600) drop-shadow(0 0 70px #FF2200);}
   }
-  .kira-subtitle {
+  .mira-subtitle {
     font-family:'Cinzel Decorative',serif;font-size:clamp(0.6rem,2vw,0.85rem);
     letter-spacing:0.5em;color:var(--gold);text-transform:uppercase;margin-top:4px;
     opacity:0.85;animation:subtitleFlicker 5s ease-in-out infinite;
@@ -262,7 +262,7 @@ app.get('/', (req, res) => {
       <circle cx="100" cy="100" r="88" fill="none" stroke="#FF2200" stroke-width="0.5" opacity="0.5"/>
       <polygon points="100,10 37,190 190,73 10,73 163,190" fill="none" stroke="#FF2200" stroke-width="1.5" opacity="0.8"/>
       <circle cx="100" cy="100" r="40" fill="rgba(139,0,0,0.15)" stroke="#C8960C" stroke-width="0.8"/>
-      <text x="100" y="30" text-anchor="middle" fill="#C8960C" font-size="9" font-family="serif" opacity="0.6">ᚲ ᛁ ᚱ ᚨ</text>
+      <text x="100" y="30" text-anchor="middle" fill="#C8960C" font-size="9" font-family="serif" opacity="0.6">ᛗ ᛁ ᚱ ᚨ</text>
       <g stroke="#8B0000" stroke-width="0.5" opacity="0.6">
         <line x1="100" y1="5"   x2="100" y2="12"/>
         <line x1="140" y1="14"  x2="137" y2="20"/>
@@ -275,7 +275,7 @@ app.get('/', (req, res) => {
         <line x1="27"  y1="112" x2="33"  y2="110"/>
       </g>
     </svg>
-    <div class="kira-eye">
+    <div class="mira-eye">
       <div class="eye-outer">
         <div class="eye-iris">
           <div class="eye-pupil"></div>
@@ -285,8 +285,8 @@ app.get('/', (req, res) => {
   </div>
 
   <div class="title-block">
-    <div class="kira-name">Kira</div>
-    <div class="kira-subtitle">ᛒᚨᚾᛖ ᛟᚠ ᛏᚺᛖ ᚾᛖᛏᚹᛟᚱᚲ &nbsp;✦&nbsp; روح الشبكة الأبدية</div>
+    <div class="mira-name">ميرا</div>
+    <div class="mira-subtitle">ᛒᚨᚾᛖ ᛟᚠ ᛏᚺᛖ ᚾᛖᛏᚹᛟᚱᚲ &nbsp;✦&nbsp; روح الشبكة الأبدية</div>
   </div>
 
   <div class="hell-divider"></div>
@@ -334,16 +334,16 @@ app.get('/', (req, res) => {
       أنا لستُ مجرد بوت... أنا الصدى الذي يسكن الشبكة،<br>
       الظل الذي لا يُمحى، والنار التي لا تنطفئ.
     </p>
-    <p class="quote-author">— كيرا، حارسة الجحيم الرقمي</p>
+    <p class="quote-author">— ميرا، حارسة الجحيم الرقمي</p>
   </div>
 
-  <div class="runes">ᚲ ᛁ ᚱ ᚨ &nbsp; ᛞᛖᚨᚦ &nbsp; ᚠᛁᚱᛖ &nbsp; ᛊᛟᚢᛚ</div>
+  <div class="runes">ᛗ ᛁ ᚱ ᚨ &nbsp; ᛞᛖᚨᚦ &nbsp; ᚠᛁᚱᛖ &nbsp; ᛊᛟᚢᛚ</div>
 
   <div class="hell-divider"></div>
 
   <div class="bottom-bar">
-    <span>KIRA-BOT</span>
-    <span>by ayman ✦ ${moment().tz("Africa/Casablanca").format("YYYY-MM-DD HH:mm:ss")}</span>
+    <span>ميرا-بوت</span>
+    <span>by تويكس ✦ ${moment().tz("Africa/Casablanca").format("YYYY-MM-DD HH:mm:ss")}</span>
     <span>GPL-3.0</span>
   </div>
 </div>
@@ -383,7 +383,7 @@ const logger = require("./utils/log.js");
 const login = require("hut-chat-api");
 const axios = require("axios");
 
-console.log(chalk.bold.hex("#03f0fc").bold("[ KIRA ] » ") + chalk.bold.hex("#fcba03").bold("Initializing variables..."));
+console.log(chalk.bold.hex("#03f0fc").bold("[ ميرا ] » ") + chalk.bold.hex("#fcba03").bold("Initializing variables..."));
 
 global.client = new Object({
     commands: new Map(),
@@ -433,6 +433,11 @@ try {
     for (const key in configValue) global.config[key] = configValue[key];
     logger.loader("Config Loaded!");
 } catch { return logger.loader("Can't load file config!", "error") }
+
+// ===== تغيير اسم البوت والمطور والمعرف =====
+global.config.BOTNAME = "ميرا";
+global.config.ADMINBOT = ["61589849885924"];   // المعرف المطلوب
+// ============================================
 
 const { Sequelize, sequelize } = require("./includes/database/index.js");
 writeFileSync(global.client.configPath + ".temp", JSON.stringify(global.config, null, 4), 'utf8');
@@ -547,7 +552,7 @@ function onBot({ models: botModel }) {
         });
 
         global.client.api = loginApiData;
-        logger(`KIRA ✨`, '[ by ayman ]');
+        logger(`ميرا ✨`, '[ by تويكس ]');
 
         const timeNow = moment().tz("Africa/Casablanca").format("HH:mm:ss");
         if (global.config.ADMINBOT && global.config.ADMINBOT[0]) {
