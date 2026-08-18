@@ -1,6 +1,7 @@
 /**
- * ◈ ───『 ✨ زخارف كيرا ✨ 』─── ◈
- * المطور: 𝐚𝐲𝐦𝐚𝐧
+/**
+ * ◈ ───『 ✨ زخارف ميرا ✨ 』─── ◈
+ * المطور: تويكس
  * الوصف: زخارف جاهزة للرسائل
  */
 
@@ -8,19 +9,19 @@ module.exports = {
     // ═══════════════════════════════════
     // العناوين الرئيسية
     // ═══════════════════════════════════
-    
+
     title: function(text) {
         return `◈ ───『 ${text} 』─── ◈`;
     },
 
-    kiraTitle: function() {
-        return `◈ ───『 ✨ كـــيرا ✨ 』─── ◈`;
+    miraTitle: function() {
+        return `◈ ───『 ✨ مـــيرا ✨ 』─── ◈`;
     },
 
     // ═══════════════════════════════════
     // تنبيهات وحماية
     // ═══════════════════════════════════
-    
+
     protection: function(text) {
         return `╭─────╼🚫╾─────╮\n   ${text}\n╰─────╼🚫╾─────╯`;
     },
@@ -36,7 +37,7 @@ module.exports = {
     // ═══════════════════════════════════
     // نجاح وتنفيذ
     // ═══════════════════════════════════
-    
+
     success: function(text) {
         return `✅━━━━━━━━━━━━━━✅\n   ${text}\n✅━━━━━━━━━━━━━━✅`;
     },
@@ -52,7 +53,7 @@ module.exports = {
     // ═══════════════════════════════════
     // أوامر وفئات
     // ═══════════════════════════════════
-    
+
     commandBox: function(text) {
         return `╭──『 ⚙️ ${text} 』──╮`;
     },
@@ -76,7 +77,7 @@ module.exports = {
     // ═══════════════════════════════════
     // فواصل
     // ═══════════════════════════════════
-    
+
     separator: function() {
         return `◈ ────────────── ◈`;
     },
@@ -100,23 +101,23 @@ module.exports = {
     // ═══════════════════════════════════
     // رسائل خاصة
     // ═══════════════════════════════════
-    
-    kiraMessage: function(text) {
+
+    miraMessage: function(text) {
         return `💌 ───『 ${text} 』─── 💌`;
     },
 
-    kiraWhisper: function(text) {
+    miraWhisper: function(text) {
         return `🌙『 ${text}… 』🌙`;
     },
 
-    kiraLove: function(text) {
+    miraLove: function(text) {
         return `💖『 ${text} 』💖`;
     },
 
     // ═══════════════════════════════════
     // دخول وخروج
     // ═══════════════════════════════════
-    
+
     exit: function() {
         return `🚪━━━━━━ خروج ━━━━━━🚪`;
     },
@@ -132,9 +133,9 @@ module.exports = {
     // ═══════════════════════════════════
     // دوال مركبة
     // ═══════════════════════════════════
-    
+
     box: function(content, icon = '✨') {
-        return `${this.kiraTitle()}\n${this.separator()}\n${icon} ${content}\n${this.separator()}`;
+        return `${this.miraTitle()}\n${this.separator()}\n${icon} ${content}\n${this.separator()}`;
     },
 
     errorBox: function(error) {
