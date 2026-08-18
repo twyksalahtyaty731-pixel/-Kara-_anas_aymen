@@ -1,6 +1,6 @@
 /**
- * ◈ ───『 ⚙️ إعدادات كيرا 』─── ◈
- * المطور: 𝐚𝐲𝐦𝐚𝐧
+ * ◈ ───『 ⚙️ إعدادات ميرا 』─── ◈
+ * المطور: تويكس
  * الوصف: دوال مساعدة للوصول للإعدادات
  */
 
@@ -44,7 +44,7 @@ module.exports = {
      * @returns {String} اسم البوت
      */
     getBotName: function() {
-        return global.config.BOTNAME || '𝐤𝐢𝐫𝐚';
+        return global.config.BOTNAME || 'ميرا';
     },
 
     /**
@@ -52,7 +52,7 @@ module.exports = {
      * @returns {String} اسم المطور
      */
     getAdminName: function() {
-        return global.config.ADMIN_NAME || '𝐚𝐲𝐦𝐚𝐧';
+        return global.config.ADMIN_NAME || 'تويكس';
     },
 
     /**
