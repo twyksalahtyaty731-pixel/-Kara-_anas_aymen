@@ -1,7 +1,7 @@
 {
-  "name": "kira-bot",
+  "name": "mira-bot",
   "version": "1.0.0",
-  "description": "Kira Bot - AI Powered Facebook Messenger Bot",
+  "description": "Mira Bot - AI Powered Facebook Messenger Bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,13 +12,13 @@
     "bot",
     "facebook",
     "messenger",
-    "kira",
+    "mira",
     "ai",
     "groq",
     "arabic",
     "llama"
   ],
-  "author": "ayman",
+  "author": "Tiwx",
   "license": "GPL-3.0",
   "dependencies": {
     "@hapi/catbox": "^12.1.1",
@@ -65,6 +65,7 @@
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "node-superfetch": "^0.2.3",
+    "node": "^20.16.0",
     "npm": "^8.4.1",
     "npmlog": "",
     "ora": "^8.0.1",
