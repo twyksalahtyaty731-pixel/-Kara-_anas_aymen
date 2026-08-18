@@ -1,7 +1,8 @@
+;
 module.exports.config = {
   name: "لاست",
   version: "1.1.2",
-  credits: "Anas",
+  credits: "تويكس", // تم التعديل
   hasPermssion: 2,
   description: "عرض المجموعات والتحكم بها",
   commandCategory: "developer",
@@ -10,8 +11,8 @@ module.exports.config = {
 };
 
 module.exports.handleReply = async function({ api, event, Threads, handleReply }) {
-  // التحقق من المطور
-  if (String(event.senderID) !== "61584059280197") return;
+  // التحقق من المطور باستخدام ADMINBOT
+  if (!global.config.ADMINBOT.includes(event.senderID)) return;
   
   const { body, threadID, messageID } = event;
   const arg = body.split(" ");
@@ -39,8 +40,8 @@ module.exports.handleReply = async function({ api, event, Threads, handleReply }
 };
 
 module.exports.run = async function({ api, event }) {
-  // التحقق من المطور
-  if (String(event.senderID) !== "61584059280197") return;
+  // التحقق من المطور باستخدام ADMINBOT
+  if (!global.config.ADMINBOT.includes(event.senderID)) return;
 
   const header = `⌬ ━━━━━━━━━━━━ ⌬\n      ⚙️ قـائـمـة الـمـجـمـوعات\n⌬ ━━━━━━━━━━━━ ⌬`;
   
@@ -60,7 +61,7 @@ module.exports.run = async function({ api, event }) {
     return api.sendMessage(msg, event.threadID, (e, info) => {
       if (e) return console.log(e);
       global.client.handleReply.push({
-        name: "لاست", // استخدام الاسم مباشرة لضمان العمل
+        name: "لاست",
         messageID: info.messageID,
         groupid,
         type: 'reply'
