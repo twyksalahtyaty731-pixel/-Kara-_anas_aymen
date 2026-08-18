@@ -1,14 +1,14 @@
 // ==========================================
-// ملف إدارة قاعدة بيانات MongoDB - بوت Kira المطور v2.6
+// ملف إدارة قاعدة بيانات MongoDB - بوت ميرا المطور v2.6
 // ==========================================
 const mongoose = require("mongoose");
 
-const MONGO_URI = "mongodb+srv://kkayman200_db_user:ukhzlLzjRxQgSnTl@cluster0.7nsuoil.mongodb.net/KiraDB?retryWrites=true&w=majority";
+const MONGO_URI = "mongodb+srv://kkayman200_db_user:ukhzlLzjRxQgSnTl@cluster0.7nsuoil.mongodb.net/MiraDB?retryWrites=true&w=majority";
 
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => console.log("✅ [MONGODB] Connected successfully to KiraDB"))
+}).then(() => console.log("✅ [MONGODB] Connected successfully to MiraDB"))
 .catch(err => console.error("❌ [MONGODB] Connection error:", err));
 
 const { Schema } = mongoose;
