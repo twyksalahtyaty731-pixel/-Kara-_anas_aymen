@@ -4,7 +4,7 @@
 # المطور: TWIX
 
 echo "🚀 Starting MIRA Bot..."
-echo "المطور: TWIX | البوت: 𝐤𝐢𝐫𝐚"
+echo "المطور: TWIX | البوت: mira"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 while true; do
