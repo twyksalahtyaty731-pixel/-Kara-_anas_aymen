@@ -4,7 +4,7 @@ module.exports.config = {
   name: "تجميع",
   version: "1.8.0",
   hasPermssion: 0,
-  credits: "Ayman",
+  credits: "تويكس",
   description: "لعبة تجميع الحروف مع جوائز مالية",
   commandCategory: "games",
   usages: "تجميع",
