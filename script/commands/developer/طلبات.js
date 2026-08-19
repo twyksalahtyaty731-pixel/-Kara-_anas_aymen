@@ -2,7 +2,7 @@ module.exports.config = {
   name: "طلبات",
   version: "1.2.0",
   hasPermssion: 2,
-  credits: "ايمن",
+  credits: "اتويكس",
   description: "إدارة طلبات المجموعات بشكل مختصر",
   commandCategory: "developer",
   usages: "طلبات",
@@ -52,7 +52,7 @@ module.exports.run = async function({ api, event }) {
 
   if (all.length === 0) return api.sendMessage("⌬ ━━ 𝗞𝗜𝗥𝗔 ━━ ⌬\n\nلا توجد طلبات مجموعات حالياً.", threadID, messageID);
 
-  let msg = `⌬ ━━ 𝗞𝗜𝗥𝗔 𝗥𝗘𝗤𝗨𝗘𝗦𝗧𝗦 ━━ ⌬\n\n`;
+  let msg = `⌬ ━━ MIRA 𝗥𝗘𝗤𝗨𝗘𝗦𝗧𝗦 ━━ ⌬\n\n`;
   let listRequest = [];
 
   for (let i = 0; i < all.length; i++) {
