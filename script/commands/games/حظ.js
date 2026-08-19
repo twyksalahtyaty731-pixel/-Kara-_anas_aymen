@@ -4,7 +4,7 @@ module.exports.config = {
     name: "حظ",
     version: "2.0.0",
     hasPermssion: 0,
-    credits: "ayman",
+    credits: "تويكس",
     description: "لعبة حظ سريعة مرتبطة ببنك كيرا السحابي",
     commandCategory: "games",
     usages: "[المبلغ]",
@@ -21,7 +21,7 @@ module.exports.run = async function({ api, event, args }) {
     const boldText = (text) => global.utils.toBoldSans(text);
     const heavyTitle = (text) => global.utils.toBoldMath(text); 
 
-    const header = `⌬ ━━━━━━━━━━━━ ⌬\n   ${heavyTitle("𝗞𝗜𝗥𝗔 𝗥𝗢𝗬𝗔𝗟 𝗟𝗨𝗖𝗞")}\n⌬ ━━━━━━━━━━━━ ⌬`;
+    const header = `⌬ ━━━━━━━━━━━━ ⌬\n   ${heavyTitle("MIRA 𝗥𝗢𝗬𝗔𝗟 𝗟𝗨𝗖𝗞")}\n⌬ ━━━━━━━━━━━━ ⌬`;
 
     try {
         const bet = parseInt(args[0]);
