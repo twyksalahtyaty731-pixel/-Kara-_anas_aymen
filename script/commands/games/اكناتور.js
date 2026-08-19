@@ -7,8 +7,8 @@ module.exports.config = {
   name: "اكيناتور",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "أيمن",
-  description: "لعبة أكيناتور - كيرا تحزر الشخصية اللي ببالك",
+  credits: "تويكس",
+  description: "لعبة أكيناتور - ميرا تحزر الشخصية اللي ببالك",
   commandCategory: "games",
   usages: ".اكيناتور [ابدأ / جوابك]",
   cooldowns: 3,
@@ -37,7 +37,7 @@ module.exports.run = async ({ api, event, args }) => {
   // تشغيل الجلسة
   if (!input || input === "ابدأ" || input === "ابدا") {
     global.akinatorSession.set(senderID, []);
-    const startMsg = "🧞‍♂️ هلا بيك.. أنا أكيناتور كيرا. فكر بشخصية (مشهورة، خيالية، أو حتى أيمن حبيبي) وقولي 'جاهز' حتى أبلش أسألك!";
+    const startMsg = "🧞‍♂️ هلا بيك.. أنا أكيناتور ميرا. فكر بشخصية (مشهورة، خيالية، أو حتى تويكس حبيبي) وقولي 'جاهز' حتى أبلش أسألك!";
     return api.sendMessage(startMsg, threadID, (err, info) => {
       global.client.handleReply.push({
         name: this.config.name,
