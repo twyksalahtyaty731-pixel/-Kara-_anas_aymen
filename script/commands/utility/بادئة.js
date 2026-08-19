@@ -16,7 +16,7 @@ module.exports.run = async function({ api, event }) {
   const botName = global.config.BOTNAME || "كيرا";
 
   return api.sendMessage(
-    `⌬ ━━ 𝗞𝗜𝗥𝗔 UTILITY ━━ ⌬\n\n🤖 اسم البوت: ${botName}\n🔑 البادئة: ${prefix}\n\n💡 استخدم: ${prefix}مساعدة للحصول على قائمة الأوامر`,
+    `⌬ ━━ MERA UTILITY ━━ ⌬\n\n🤖 اسم البوت: ${botName}\n🔑 البادئة: ${prefix}\n\n💡 استخدم: ${prefix}مساعدة للحصول على قائمة الأوامر`,
     threadID,
     messageID
   );
