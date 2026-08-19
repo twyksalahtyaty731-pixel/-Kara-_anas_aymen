@@ -1,0 +1,61 @@
+module.exports.config = {
+  name: "اشعار",
+  version: "2.1.0",
+  hasPermssion: 2,
+  credits: "تويكس",
+  description: "إرسال إشعار إلى جميع المجموعات (للمطور فقط)",
+  commandCategory: "developer",
+  usages: "اشعار [النص]",
+  cooldowns: 5
+};
+
+module.exports.run = async function({ api, event, args }) {
+  const { threadID, messageID, senderID } = event;
+  const adminList = global.config.ADMINBOT || [];
+
+  // التحقق من صلاحية المطور (فقط)
+  if (!adminList.includes(senderID)) {
+    return api.sendMessage("⌬ ━━ MIRA 𝗗𝗘𝗩 ━━ ⌬\n\n⚠️ هذا الأمر مخصص للمطورين فقط.", threadID, messageID);
+  }
+
+  const messageText = args.join(" ");
+  if (!messageText) {
+    return api.sendMessage("⌬ ━━ MIRA 𝗗𝗘𝗩 ━━ ⌬\n\n📝 يرجى كتابة نص الإشعار.\nالاستخدام: اشعار [النص]", threadID, messageID);
+  }
+
+  // حالة الإرسال
+  api.setMessageReaction("⏳", messageID, () => {}, true);
+
+  try {
+    // جلب جميع المجموعات المشترك فيها البوت
+    const inbox = await api.getThreadList(500, null, ['INBOX']);
+    const groups = inbox.filter(g => g.isSubscribed && g.isGroup && g.threadID !== threadID);
+
+    if (groups.length === 0) {
+      return api.sendMessage("❌ لا توجد مجموعات أخرى لإرسال الإشعار إليها.", threadID, messageID);
+    }
+
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const group of groups) {
+      try {
+        await api.sendMessage(`📢 إشعار من المطور:\n\n${messageText}`, group.threadID);
+        successCount++;
+      } catch (e) {
+        failCount++;
+        console.error(`فشل الإرسال إلى ${group.threadID}:`, e);
+      }
+    }
+
+    api.sendMessage(
+      `⌬ ━━ MIRA 𝗗𝗘𝗩 ━━ ⌬\n\n✅ تم إرسال الإشعار إلى ${successCount} مجموعة.\n❌ فشل الإرسال إلى ${failCount} مجموعة.`,
+      threadID,
+      messageID
+    );
+
+  } catch (err) {
+    console.error(err);
+    api.sendMessage(`❌ حدث خطأ أثناء الإرسال:\n${err.message}`, threadID, messageID);
+  }
+};
