@@ -5,7 +5,7 @@ module.exports.config = {
   name: "رابط",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Ayman",
+  credits: "تويكس",
   description: "تحويل الوسائط إلى روابط دائمة",
   commandCategory: "utility",
   usages: "رابط [رد على صورة/فيديو]",
@@ -55,14 +55,14 @@ module.exports.run = async ({ api, event }) => {
     const links = results.map((r, i) => `${i + 1}. 🔗 ${r}`).join("\n");
 
     return api.sendMessage(
-      `⌬ ━━ 𝗞𝗜𝗥𝗔 ━━ ⌬\n\n✅ تم رفع ${results.length}/${mediaLinks.length} ملف:\n\n${links}`,
+      `⌬ ━━ MIRA━━ ⌬\n\n✅ تم رفع ${results.length}/${mediaLinks.length} ملف:\n\n${links}`,
       threadID, messageID
     );
 
   } catch (e) {
     console.error(e);
     return api.sendMessage(
-      "⌬ ━━ 𝗞𝗜𝗥𝗔 ━━ ⌬\n\n❌ فشل الرفع، حاول لاحقاً.",
+      "⌬ ━━ MIRA ━━ ⌬\n\n❌ فشل الرفع، حاول لاحقاً.",
       threadID, messageID
     );
   }
