@@ -1,3 +1,4 @@
+
 const fs = require("fs-extra");
 const path = require("path");
 const axios = require("axios");
@@ -6,19 +7,19 @@ module.exports.config = {
   name: "غادري",
   version: "1.2.7",
   hasPermssion: 2,
-  credits: "TWIX",
-  description: "مغادرة البوت للمجموعة",
+  credits: "تويكس",
+  description: "مغادرة البوت للمجموعة (للمطور فقط)",
   commandCategory: "developer",
   usages: "غادري [ID]",
-  cooldowns: 5,
-  devID: "61589849885924"
+  cooldowns: 5
 };
 
 module.exports.run = async ({ api, event, args }) => {
   const { threadID, senderID } = event;
-  const { devID } = module.exports.config;
+  const adminList = global.config.ADMINBOT || [];
 
-  if (String(senderID) !== String(devID)) {
+  // التحقق من صلاحية المطور
+  if (!adminList.includes(senderID)) {
     return api.sendMessage("⛔ هذا الأمر مخصص للمطور فقط.", threadID);
   }
 
@@ -40,22 +41,29 @@ module.exports.run = async ({ api, event, args }) => {
     } catch (_) {}
   };
 
+  // محاولة إرسال رسالة وداع مع GIF
   try {
     fs.ensureDirSync(cacheDir);
 
-    const response = await axios.get(
-      "https://media.giphy.com/media/kaBU6pgv0OsPHz2yxy/giphy.gif",
-      { responseType: "arraybuffer", timeout: 10000 }
-    );
+    let attachment = null;
+    try {
+      const response = await axios.get(
+        "https://media.giphy.com/media/kaBU6pgv0OsPHz2yxy/giphy.gif",
+        { responseType: "arraybuffer", timeout: 10000 }
+      );
+      fs.writeFileSync(pathGif, Buffer.from(response.data));
+      attachment = fs.createReadStream(pathGif);
+    } catch (gifError) {
+      console.warn("فشل تحميل GIF، سيتم الإرسال بدون مرفق.", gifError.message);
+    }
 
-    fs.writeFileSync(pathGif, Buffer.from(response.data));
+    const msgBody = "⌬ ━━ MIRA ━━ ⌬\n\nحبيبي تويكس،\nنغادر الآن بكل هيبة.. وداعاً. 👑";
 
     await new Promise((resolve, reject) => {
       api.sendMessage(
         {
-          body: "⌬ ━━ Mira ━━ ⌬\n\n حبيبي تويكس 
-            نغادر الآن بكل هيبة.. وداعاً. 👑",
-          attachment: fs.createReadStream(pathGif)
+          body: msgBody,
+          attachment: attachment || null
         },
         targetID,
         (err) => {
@@ -65,14 +73,20 @@ module.exports.run = async ({ api, event, args }) => {
       );
     });
 
+    // تأخير ثم المغادرة
     setTimeout(() => {
       leaveGroup(targetID);
       cleanUp();
     }, 1500);
 
+    // رد فعل تأكيد للمطور
+    api.setMessageReaction("✅", event.messageID, () => {}, true);
+
   } catch (e) {
     console.error("خطأ في أمر غادري:", e);
     cleanUp();
+    // في حالة فشل الإرسال، نغادر بدون رسالة
     leaveGroup(targetID);
+    api.sendMessage("❌ حدث خطأ أثناء محاولة المغادرة، لكن تم تنفيذ الخروج.", threadID);
   }
 };
