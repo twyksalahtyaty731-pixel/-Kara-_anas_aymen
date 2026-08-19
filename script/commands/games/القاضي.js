@@ -4,10 +4,10 @@
 if (!global.judgeGames) global.judgeGames = new Map();
 
 module.exports.config = {
-  name: "القاضي",
+  name: "أيمن",
   version: "5.0.0",
   hasPermssion: 0,
-  credits: "أيمن",
+  credits: "تويكس" 
   description: "لعبة التحقيق الجنائي - هل أنت ذكي كفاية لحل القضية؟",
   commandCategory: "games",
   usages: ".القاضي (للبدء أو الحل)",
