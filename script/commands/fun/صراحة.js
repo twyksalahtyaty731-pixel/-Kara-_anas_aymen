@@ -18,17 +18,17 @@ module.exports.run = async function({ api, event, args, Users, Threads, Currenci
     try {
         if (type === "truth" || type === "صراحة") {
             const response = await axios.get(`${baseUrl}/truth`);
-            return api.sendMessage(`⌬ ━━ 𝗞𝗜𝗥𝗔 FUN ━━ ⌬\n\nسؤال صراحة:\n\n${response.data.result}`, threadID, messageID);
+            return api.sendMessage(`⌬ ━━ MIRA FUN ━━ ⌬\n\nسؤال صراحة:\n\n${response.data.result}`, threadID, messageID);
         } 
         else if (type === "dare" || type === "جرأة") {
             const response = await axios.get(`${baseUrl}/dare`);
-            return api.sendMessage(`⌬ ━━ 𝗞𝗜𝗥𝗔 FUN ━━ ⌬\n\nسؤال جرأة:\n\n${response.data.result}`, threadID, messageID);
+            return api.sendMessage(`⌬ ━━ MIRA FUN ━━ ⌬\n\nسؤال جرأة:\n\n${response.data.result}`, threadID, messageID);
         } 
         else {
-            return api.sendMessage("⌬ ━━ 𝗞𝗜𝗥𝗔 FUN ━━ ⌬\n\nاستخدم: صراحة [صراحة/جرأة]", threadID, messageID);
+            return api.sendMessage("⌬ ━━ MIRA FUN ━━ ⌬\n\nاستخدم: صراحة [صراحة/جرأة]", threadID, messageID);
         }
     } catch (error) {
-        return api.sendMessage(`⌬ ━━ 𝗞𝗜𝗥𝗔 FUN ━━ ⌬\n\nفشل جلب السؤال`, threadID, messageID);
+        return api.sendMessage(`⌬ ━━ MIRA FUN ━━ ⌬\n\nفشل جلب السؤال`, threadID, messageID);
     }
 };
 
@@ -36,7 +36,7 @@ module.exports.config = {
     name: "صراحة",
     version: "2.0.0",
     hasPermssion: 0,
-    credits: "ايمن",
+    credits: "تويكس",
     description: "لعبة صراحة أو جرأة",
     commandCategory: "fun",
     usages: "صراحة [صراحة/جرأة]",
