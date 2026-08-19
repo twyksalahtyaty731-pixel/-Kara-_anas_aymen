@@ -53,7 +53,8 @@ module.exports.run = async ({ api, event, args }) => {
     await new Promise((resolve, reject) => {
       api.sendMessage(
         {
-          body: "⌬ ━━ Mira ━━ ⌬\n\nنغادر الآن بكل هيبة.. وداعاً. 👑",
+          body: "⌬ ━━ Mira ━━ ⌬\n\n حبيبي تويكس 
+            نغادر الآن بكل هيبة.. وداعاً. 👑",
           attachment: fs.createReadStream(pathGif)
         },
         targetID,
