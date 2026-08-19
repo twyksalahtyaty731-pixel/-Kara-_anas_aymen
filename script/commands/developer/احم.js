@@ -2,7 +2,7 @@ module.exports.config = {
   name: "احم",
   version: "1.0.2",
   hasPermssion: 2, 
-  credits: "أيمن",
+  credits: "تويكس",
   description: "رفع المطور مسؤولاً من الكونسل",
   commandCategory: "developer",
   usages: "احم",
