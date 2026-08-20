@@ -2,7 +2,7 @@ module.exports.config = {
   name: "بادئة",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "ايمن",
+  credits: "اتويكس",
   description: "عرض بادئة البوت",
   commandCategory: "utility",
   usages: "بادئة",
