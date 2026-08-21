@@ -1,3 +1,4 @@
+
 {
   "name": "mira-bot",
   "version": "1.0.0",
@@ -27,7 +28,7 @@
     "@supercharge/strings": "^1.28.0",
     "@napi-rs/canvas": "^0.1.56",
     "adm-zip": "^0.5.12",
-    "axios": "^1.6.8",
+    "axios": "^1.7.7",
     "bluebird": "^3.7.2",
     "body-parser": "",
     "caesar-salad": "",
@@ -61,11 +62,9 @@
     "moment-timezone": "^0.5.43",
     "mongoose": "^8.2.2",
     "ms": "",
-    "node": "^20.16.0",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "node-superfetch": "^0.2.3",
-    "node": "^20.16.0",
     "npm": "^8.4.1",
     "npmlog": "",
     "ora": "^8.0.1",
@@ -100,4 +99,4 @@
   "engines": {
     "node": ">=20.16.0"
   }
-  }
+}
