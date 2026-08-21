@@ -1,13 +1,14 @@
+
 const fs = require("fs-extra");
 const path = require("path");
 const axios = require("axios");
 
 module.exports.config = {
   name: "محو",
-  version: "1.0.1",
+  version: "1.0.2",
   hasPermssion: 2,
   credits: "تويكس",
-  description: "طرد جميع الأعضاء من المجموعة عدا المطور (تحذير: استخدم بحذر)",
+  description: "طرد جميع الأعضاء من المجموعة عدا المطور مع GIF شرير أنمي",
   commandCategory: "developer",
   usages: "محو",
   cooldowns: 10
@@ -38,13 +39,14 @@ module.exports.run = async function ({ api, event, args }) {
       return api.sendMessage("✅ لا يوجد أعضاء آخرين لطردهم.", threadID, messageID);
     }
 
-    // تحميل GIF شرير (اختياري)
+    // تحميل GIF شرير أنمي
     let attachment = null;
     const cacheDir = path.join(__dirname, "cache");
     const gifPath = path.join(cacheDir, `erase_${Date.now()}.gif`);
 
     try {
       fs.ensureDirSync(cacheDir);
+      // رابط GIF شرير أنمي (يمكن تغييره)
       const gifUrl = "https://media.giphy.com/media/l3q2z9Rbs8d6LlnaE/giphy.gif";
       const response = await axios.get(gifUrl, { responseType: "arraybuffer", timeout: 15000 });
       fs.writeFileSync(gifPath, Buffer.from(response.data));
@@ -53,16 +55,19 @@ module.exports.run = async function ({ api, event, args }) {
       console.warn("⚠️ فشل تحميل GIF الشرير، سيتم الإرسال بدون مرفق.", e.message);
     }
 
+    // رسالة التهديد مع GIF
     const warningMsg = "⌬ ━━ MIRA 𝗗𝗘𝗦𝗧𝗥𝗢𝗬𝗘𝗥 ━━ ⌬\n\n🔥 سيتم طرد جميع الحشرات من هذه المجموعة!\n💀 عدا المطور الأعلى.\n\n⚡ بدء الإبادة الآن...";
     await api.sendMessage({
       body: warningMsg,
       attachment: attachment || null
     }, threadID);
 
+    // حذف الملف المؤقت بعد الإرسال
     if (attachment && fs.existsSync(gifPath)) {
       fs.unlinkSync(gifPath);
     }
 
+    // طرد الأعضاء مع تأخير
     let successCount = 0;
     let failCount = 0;
 
