@@ -1,11 +1,13 @@
-const axios = require('axios');
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
 
 module.exports.config = {
   name: "وايفو",
-  version: "3.5",
+  version: "3.6",
   hasPermssion: 0,
-  credits: "  أنس",
-  description: "إرسال صور أنمي متنوعة (حضن، قبلة، رقص، إلخ)",
+  credits: "أنس",
+  description: "إرسال صور أنمي متنوعة",
   commandCategory: "pic",
   usages: "<النوع>",
   cooldowns: 5
@@ -15,77 +17,336 @@ module.exports.run = async function ({ api, event, args }) {
   const { threadID, messageID, senderID } = event;
 
   const typesMap = {
-    "وايفو": "waifu", "نيكو": "neko", "شينوبو": "shinobu", "ميغومين": "megumin",
-    "مزاح": "bully", "حضن": "cuddle", "بكاء": "cry", "قبلة": "kiss",
-    "عناق": "hug", "ربت": "pat", "خجل": "blush", "ابتسامة": "smile",
-    "رقصة": "dance", "صفعة": "slap", "قتل": "kill", "ركلة": "kick",
-    "أكل": "nom", "عضة": "bite", "غمزة": "wink", "نغز": "poke"
+    "وايفو": "waifu",
+    "نيكو": "neko",
+    "شينوبو": "shinobu",
+    "ميغومين": "megumin",
+    "مزاح": "bully",
+    "حضن": "cuddle",
+    "بكاء": "cry",
+    "عناق": "hug",
+    "ربت": "pat",
+    "خجل": "blush",
+    "ابتسامة": "smile",
+    "رقصة": "dance",
+    "غمزة": "wink",
+    "نغز": "poke",
+    "أكل": "nom"
   };
 
   const name = args.join(" ").trim();
 
-  // 1. عرض القائمة إذا لم يتم اختيار نوع
+  // =========================
+  // عرض القائمة
+  // =========================
+
   if (!name) {
-    let keys = Object.keys(typesMap);
-    let list = "⌬ ━━━ SOMI 𝗔𝗡𝗜𝗠𝗘 ━━━ ⌬\n\n";
-    list += "✨ الأنواع المتاحة:\n";
-    list += "│ " + keys.join(" ، ") + "\n\n";
-    list += "💡 اكتب: [ وايفو حضن ]\n";
-    list += "⌬ ━━━━━━━━━━━━━━ ⌬";
-    return api.sendMessage(list, threadID, messageID);
+    const keys = Object.keys(typesMap);
+
+    let list = "⌬ ━━━ 𝗞𝗜𝗥𝗔 𝗪𝗔𝗜𝗙𝗨 ━━━ ⌬\n\n";
+
+    list += "✨ الأنواع المتاحة:\n\n";
+    list += keys.join(" ، ");
+
+    list +=
+      "\n\n💡 مثال:\n" +
+      "『 وايفو حضن 』\n\n" +
+      "⌬ ━━━━━━━━━━━━━━ ⌬";
+
+    return api.sendMessage(
+      list,
+      threadID,
+      messageID
+    );
   }
+
+  // =========================
+  // التحقق من النوع
+  // =========================
 
   const engName = typesMap[name];
+
   if (!engName) {
-    return api.sendMessage("⚠️ | هذا النوع غير متوفر في قائمة سومي.", threadID, messageID);
+    return api.sendMessage(
+      "⚠️ | هذا النوع غير متوفر.\n\n" +
+      "اكتب «وايفو» لعرض القائمة.",
+      threadID,
+      messageID
+    );
   }
 
+  // تفاعل انتظار
   try {
-    api.sendMessage("⏳ جاري جلب لقطة الأنمي...", threadID, messageID);
+    api.setMessageReaction(
+      "⏳",
+      messageID,
+      () => {},
+      true
+    );
+  } catch (e) {}
 
-    // 2. جلب الصورة من الـ API
-    const res = await axios.get(`https://api.waifu.pics/sfw/${engName}`);
+  const cacheDir = path.join(
+    __dirname,
+    "cache"
+  );
+
+  const cachePath = path.join(
+    cacheDir,
+    `waifu_${Date.now()}.jpg`
+  );
+
+  try {
+    // =========================
+    // إنشاء مجلد الكاش
+    // =========================
+
+    await fs.ensureDir(cacheDir);
+
+    // =========================
+    // طلب الصورة
+    // =========================
+
+    const res = await axios.get(
+      `https://api.waifu.pics/sfw/${engName}`,
+      {
+        timeout: 15000
+      }
+    );
+
+    if (!res.data || !res.data.url) {
+      throw new Error("لم يتم العثور على رابط الصورة");
+    }
+
     const imgUrl = res.data.url;
-    const imgRes = await axios.get(imgUrl, { responseType: 'stream' });
 
-    // 3. إرسال الصورة
-    const msg = {
-      body: `⌬ ━━━ SOMI 𝗪𝗔𝗜𝗙𝗨 ━━━ ⌬\n\n🖼️ النوع: ${name}\n✨ المصدر: Waifu.pics\n\n⌬ ━━━━━━━━━━━━━━ ⌬`,
-      attachment: imgRes.data
-    };
+    // =========================
+    // تحميل الصورة
+    // =========================
 
-    return api.sendMessage(msg, threadID, (err, info) => {
-        // نظام التفاعلات في كيرا/ميراي
-        if(global.client.handleReaction) {
-            global.client.handleReaction.push({
-                name: "وايفو",
-                messageID: info.messageID,
-                author: senderID,
-                engName: engName,
-                typeName: name
-            });
+    const imgRes = await axios.get(
+      imgUrl,
+      {
+        responseType: "arraybuffer",
+        timeout: 15000
+      }
+    );
+
+    await fs.writeFile(
+      cachePath,
+      Buffer.from(imgRes.data)
+    );
+
+    // =========================
+    // نجاح
+    // =========================
+
+    try {
+      api.setMessageReaction(
+        "✅",
+        messageID,
+        () => {},
+        true
+      );
+    } catch (e) {}
+
+    // =========================
+    // إرسال الصورة
+    // =========================
+
+    return api.sendMessage(
+      {
+        body:
+          `⌬ ━━━ 𝗞𝗜𝗥𝗔 𝗪𝗔𝗜𝗙𝗨 ━━━ ⌬\n\n` +
+          `🖼️ النوع: ${name}\n` +
+          `✨ المصدر: Waifu.pics\n\n` +
+          `👍 تفاعل بـ 👍 للحصول على صورة جديدة\n\n` +
+          `⌬ ━━━━━━━━━━━━━━ ⌬`,
+
+        attachment:
+          fs.createReadStream(cachePath)
+      },
+
+      threadID,
+
+      async (err, info) => {
+
+        // حذف الكاش
+        try {
+          if (await fs.pathExists(cachePath)) {
+            await fs.unlink(cachePath);
+          }
+        } catch (e) {}
+
+        // تسجيل التفاعل
+        if (
+          !err &&
+          info &&
+          global.client &&
+          global.client.handleReaction
+        ) {
+          global.client.handleReaction.push({
+            name: "وايفو",
+            messageID: info.messageID,
+            author: senderID,
+            engName: engName,
+            typeName: name
+          });
         }
-    }, messageID);
+      }
+    );
 
-  } catch (e) {
-    return api.sendMessage("✖ | حدث خطأ في الاتصال بالخادم.", threadID, messageID);
+  } catch (error) {
+
+    console.error(
+      "❌ Waifu Error:",
+      error.message
+    );
+
+    // حذف الملف إذا موجود
+    try {
+      if (await fs.pathExists(cachePath)) {
+        await fs.unlink(cachePath);
+      }
+    } catch (e) {}
+
+    try {
+      api.setMessageReaction(
+        "❌",
+        messageID,
+        () => {},
+        true
+      );
+    } catch (e) {}
+
+    return api.sendMessage(
+      "✖ | حدث خطأ أثناء جلب صورة الأنمي.\n" +
+      "🔄 حاول مرة أخرى بعد قليل.",
+      threadID
+    );
   }
 };
 
-// 4. معالج التفاعلات (عند الضغط على 👍 يتم إرسال صورة جديدة)
-module.exports.handleReaction = async function ({ api, event, handleReaction }) {
-  if (event.userID != handleReaction.author) return;
-  if (event.reaction != "👍") return;
+
+// ==================================================
+//                 نظام التفاعل
+// ==================================================
+
+module.exports.handleReaction = async function ({
+  api,
+  event,
+  handleReaction
+}) {
+
+  if (!handleReaction) return;
+
+  // الشخص الذي ضغط يجب أن يكون صاحب الطلب
+  if (
+    String(event.userID) !==
+    String(handleReaction.author)
+  ) {
+    return;
+  }
+
+  // فقط 👍
+  if (event.reaction !== "👍") {
+    return;
+  }
+
+  const engName = handleReaction.engName;
+  const typeName = handleReaction.typeName;
+
+  if (!engName) return;
+
+  const cacheDir = path.join(
+    __dirname,
+    "cache"
+  );
+
+  const cachePath = path.join(
+    cacheDir,
+    `waifu_reaction_${Date.now()}.jpg`
+  );
 
   try {
-    const res = await axios.get(`https://api.waifu.pics/sfw/${handleReaction.engName}`);
-    const imgRes = await axios.get(res.data.url, { responseType: 'stream' });
 
-    return api.sendMessage({
-      body: `⌬ ━━━ SOMI 𝗪𝗔𝗜𝗙𝗨 ━━━ ⌬\n\n🔄 صورة جديدة من نوع: ${handleReaction.typeName}`,
-      attachment: imgRes.data
-    }, event.threadID);
-  } catch (e) {
-    api.sendMessage("✖ | تعذر جلب صورة جديدة.", event.threadID);
+    await fs.ensureDir(cacheDir);
+
+    // =========================
+    // جلب صورة جديدة
+    // =========================
+
+    const res = await axios.get(
+      `https://api.waifu.pics/sfw/${engName}`,
+      {
+        timeout: 15000
+      }
+    );
+
+    if (!res.data || !res.data.url) {
+      throw new Error("No image URL");
+    }
+
+    // =========================
+    // تحميل الصورة
+    // =========================
+
+    const imgRes = await axios.get(
+      res.data.url,
+      {
+        responseType: "arraybuffer",
+        timeout: 15000
+      }
+    );
+
+    await fs.writeFile(
+      cachePath,
+      Buffer.from(imgRes.data)
+    );
+
+    // =========================
+    // إرسال الصورة الجديدة
+    // =========================
+
+    return api.sendMessage(
+      {
+        body:
+          `⌬ ━━━ 𝗞𝗜𝗥𝗔 𝗪𝗔𝗜𝗙𝗨 ━━━ ⌬\n\n` +
+          `🔄 صورة جديدة\n` +
+          `🖼️ النوع: ${typeName}`,
+
+        attachment:
+          fs.createReadStream(cachePath)
+      },
+
+      event.threadID,
+
+      async () => {
+
+        try {
+          if (await fs.pathExists(cachePath)) {
+            await fs.unlink(cachePath);
+          }
+        } catch (e) {}
+
+      }
+    );
+
+  } catch (error) {
+
+    console.error(
+      "❌ Reaction Error:",
+      error.message
+    );
+
+    try {
+      if (await fs.pathExists(cachePath)) {
+        await fs.unlink(cachePath);
+      }
+    } catch (e) {}
+
+    return api.sendMessage(
+      "✖ | تعذر جلب صورة جديدة، حاول مرة أخرى.",
+      event.threadID
+    );
   }
 };
