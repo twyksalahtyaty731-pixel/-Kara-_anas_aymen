@@ -1,6 +1,7 @@
+
 module.exports.config = {
   name: "طوكيو",
-  version: "1.2.0",
+  version: "1.2.1",
   hasPermssion: 0,
   credits: "ايمن",
   description: "صور شخصيات أنمي طوكيو ريفينجرز ✨",
@@ -9,15 +10,28 @@ module.exports.config = {
   cooldowns: 5
 };
 
-module.exports.run = async function({ api, event }) {
+module.exports.run = async function ({ api, event }) {
   const axios = require("axios");
   const fs = require("fs-extra");
   const path = require("path");
+
   const { threadID, messageID } = event;
 
+  // =========================
   // تفاعل الانتظار
-  api.setMessageReaction("⏳", messageID, () => {}, true);
+  // =========================
+  try {
+    api.setMessageReaction(
+      "⏳",
+      messageID,
+      () => {},
+      true
+    );
+  } catch (e) {}
 
+  // =========================
+  // روابط الصور
+  // =========================
   const links = [
     "https://i.imgur.com/ho235f3.jpg",
     "https://i.imgur.com/79gtJRN.jpeg",
@@ -75,37 +89,147 @@ module.exports.run = async function({ api, event }) {
     "https://i.imgur.com/uH6JUVW.jpeg",
     "https://i.imgur.com/PCd0ogv.jpeg",
     "https://i.imgur.com/pIZNKAa.jpeg",
-    "https://i.imgur.com/79gtJRN.jpeg",
     "https://i.imgur.com/0tgOmcm.jpg"
   ];
 
-  const randomImg = links[Math.floor(Math.random() * links.length)];
-  const cachePath = path.join(__dirname, "cache", `tokyo_${Date.now()}.jpg`);
+  // =========================
+  // اختيار صورة عشوائية
+  // =========================
+  const randomImg =
+    links[Math.floor(Math.random() * links.length)];
+
+  // =========================
+  // إنشاء مجلد الكاش
+  // =========================
+  const cacheDir = path.join(__dirname, "cache");
 
   try {
-    // تحميل الصورة
-    const response = await axios.get(randomImg, { responseType: "arraybuffer" });
-    fs.ensureDirSync(path.join(__dirname, "cache"));
-    fs.writeFileSync(cachePath, Buffer.from(response.data));
+    await fs.ensureDir(cacheDir);
+  } catch (error) {
+    console.error("❌ فشل إنشاء مجلد الكاش:", error);
 
-    api.setMessageReaction("✅", messageID, () => {}, true);
+    try {
+      api.setMessageReaction(
+        "❌",
+        messageID,
+        () => {},
+        true
+      );
+    } catch (e) {}
 
     return api.sendMessage(
+      "❌ حدث خطأ أثناء تجهيز الصورة.",
+      threadID
+    );
+  }
+
+  const cachePath = path.join(
+    cacheDir,
+    `tokyo_${Date.now()}_${Math.floor(Math.random() * 9999)}.jpg`
+  );
+
+  try {
+    console.log(
+      `🌸 جاري تحميل صورة طوكيو ريفينجرز:\n${randomImg}`
+    );
+
+    // =========================
+    // تحميل الصورة
+    // =========================
+    const response = await axios.get(randomImg, {
+      responseType: "arraybuffer",
+      timeout: 15000,
+      maxContentLength: 15 * 1024 * 1024,
+      headers: {
+        "User-Agent": "Mozilla/5.0"
+      }
+    });
+
+    if (!response.data) {
+      throw new Error("الصورة فارغة");
+    }
+
+    // =========================
+    // حفظ الصورة
+    // =========================
+    await fs.writeFile(
+      cachePath,
+      Buffer.from(response.data)
+    );
+
+    // التأكد أن الملف موجود
+    if (!(await fs.pathExists(cachePath))) {
+      throw new Error("لم يتم إنشاء ملف الصورة");
+    }
+
+    // =========================
+    // نجاح التحميل
+    // =========================
+    try {
+      api.setMessageReaction(
+        "✅",
+        messageID,
+        () => {},
+        true
+      );
+    } catch (e) {}
+
+    // =========================
+    // إرسال الصورة
+    // =========================
+    return api.sendMessage(
       {
-        body: `⌬ ━━ 𝗞𝗜𝗥𝗔 𝗧𝗢𝗞𝗬𝗢 ━━ ⌬\n\n✨ عدد الصور المتاحة: ${links.length}\n🔥 استمتع بالصورة العشوائية!`,
+        body:
+          `⌬ ━━ 𝗞𝗜𝗥𝗔 𝗧𝗢𝗞𝗬𝗢 ━━ ⌬\n\n` +
+          `✨ عدد الصور المتاحة: ${links.length}\n` +
+          `🔥 استمتع بالصورة العشوائية!`,
         attachment: fs.createReadStream(cachePath)
       },
       threadID,
-      () => {
-        if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-      },
-      messageID
+      async () => {
+        // حذف الصورة بعد الإرسال
+        try {
+          if (await fs.pathExists(cachePath)) {
+            await fs.unlink(cachePath);
+          }
+        } catch (error) {
+          console.log(
+            "⚠️ تعذر حذف ملف الكاش:",
+            error.message
+          );
+        }
+      }
     );
 
   } catch (error) {
-    console.error(error);
-    api.setMessageReaction("❌", messageID, () => {}, true);
-    if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-    return api.sendMessage("⌬ ━━ 𝗞𝗜𝗥𝗔 PIC ━━ ⌬\n\nحدث خطأ أثناء جلب الصورة، حاول لاحقاً.", threadID, messageID);
+    console.error(
+      "❌ خطأ في أمر طوكيو:",
+      error.message
+    );
+
+    // تغيير التفاعل إلى خطأ
+    try {
+      api.setMessageReaction(
+        "❌",
+        messageID,
+        () => {},
+        true
+      );
+    } catch (e) {}
+
+    // حذف الملف إذا تم إنشاؤه
+    try {
+      if (await fs.pathExists(cachePath)) {
+        await fs.unlink(cachePath);
+      }
+    } catch (e) {}
+
+    // إرسال رسالة الخطأ
+    return api.sendMessage(
+      `⌬ ━━ 𝗞𝗜𝗥𝗔 𝗣𝗜𝗖 ━━ ⌬\n\n` +
+      `❌ حدث خطأ أثناء جلب الصورة.\n` +
+      `🔄 حاول مرة أخرى بعد قليل.`,
+      threadID
+    );
   }
 };
