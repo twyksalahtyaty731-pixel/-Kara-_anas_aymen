@@ -5,7 +5,7 @@ module.exports.config = {
     name: "زيادة",
     version: "2.6.0",
     hasPermssion: 2,
-    credits: "أيمن",
+    credits: "تويكس",
     description: "شحن رصيد مع إظهار منشن المستلم",
     commandCategory: "Developer",
     usages: ".زيادة [المبلغ] [@منشن/آيدي/رد]",
