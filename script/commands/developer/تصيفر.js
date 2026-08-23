@@ -6,7 +6,7 @@ module.exports = {
     config: {
         name: "تصفير",
         version: "2.1.0",
-        author: "Kira AI",
+        author: "MIRA AI",
         hasPermssion: 2, // للمطور (أيمن) فقط
         category: " developer",
         guide: { ar: ".تصفير [منشن/أيدي/رد]" }
