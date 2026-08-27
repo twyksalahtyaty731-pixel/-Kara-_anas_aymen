@@ -1,3 +1,4 @@
+
 const fs = require("fs");
 const path = require("path");
 
@@ -62,8 +63,8 @@ module.exports.run = async function({ api, event, Threads }) {
 
     await api.removeUserFromGroup(targetID, threadID);
 
-    // مسار الفيديو المرفق مع هذا الأمر (ملف kick_bye.mp4 في نفس مجلد cache)
-    const videoPath = path.join(__dirname, "cache", "kick_bye.mp4");
+    // مسار الفيديو المرفق مع هذا الأمر (نفس مجلد admin مباشرة)
+    const videoPath = path.join(__dirname, "kick_bye-2.mp4");
 
     if (fs.existsSync(videoPath)) {
       return api.sendMessage(
