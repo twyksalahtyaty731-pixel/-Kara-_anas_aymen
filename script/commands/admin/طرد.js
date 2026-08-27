@@ -1,9 +1,11 @@
+const fs = require("fs");
+const path = require("path");
 
 module.exports.config = {
   name: "طرد",
-  version: "1.2.0",
+  version: "1.3.0",
   hasPermssion: 1,
-  credits: "تويكس", // تم التعديل
+  credits: "تويكس",
   description: "طرد عضو مع حماية مطوري البوت من الكونسق",
   commandCategory: "admin",
   usages: "[@منشن] أو رد على رسالة",
@@ -13,7 +15,6 @@ module.exports.config = {
 module.exports.run = async function({ api, event, Threads }) {
   const { threadID, messageID, mentions, messageReply, senderID } = event;
 
-  // سحب قائمة المطورين من ملف config.json الخاص بالبوت
   const config = global.config.ADMINBOT || [];
 
   try {
@@ -43,8 +44,6 @@ module.exports.run = async function({ api, event, Threads }) {
       );
     }
 
-    // --- نظام الحماية الديناميكي ---
-    // يتحقق إذا كان المستهدف موجوداً في قائمة مطوري البوت في الـ config
     if (config.includes(targetID)) {
       return api.sendMessage(
         "⌬ ━━ 𝗠𝗜𝗥𝗔 ADMIN ━━ ⌬\n\n🚫 حماية المطور مفعلة! لا يمكنني طرد أحد مطوري أو مدراء البوت العظماء.",
@@ -60,15 +59,26 @@ module.exports.run = async function({ api, event, Threads }) {
         messageID
       );
     }
-    // ----------------------------
 
     await api.removeUserFromGroup(targetID, threadID);
 
-    return api.sendMessage(
-      `⌬ ━━ 𝗠𝗜𝗥𝗔 ADMIN ━━ ⌬\n\n✅ تم طرد العضو بنجاح من المجموعة`,
-      threadID,
-      messageID
-    );
+    // مسار الفيديو المرفق مع هذا الأمر (ملف kick_bye.mp4 في نفس مجلد cache)
+    const videoPath = path.join(__dirname, "cache", "kick_bye.mp4");
+
+    if (fs.existsSync(videoPath)) {
+      return api.sendMessage(
+        {
+          body: `⌬ ━━ 𝗠𝗜𝗥𝗔 ADMIN ━━ ⌬\n\n✅ تم طرد العضو بنجاح من المجموعة\nإلى اللقاء 🧙‍♂️`,
+          attachment: fs.createReadStream(videoPath)
+        },
+        threadID
+      );
+    } else {
+      return api.sendMessage(
+        `⌬ ━━ 𝗠𝗜𝗥𝗔 ADMIN ━━ ⌬\n\n✅ تم طرد العضو بنجاح من المجموعة\nإلى اللقاء 🧙‍♂️`,
+        threadID
+      );
+    }
 
   } catch (error) {
     console.error("طرد - خطأ:", error);
